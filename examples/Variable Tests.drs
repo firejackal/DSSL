@@ -1,0 +1,47 @@
+@DSSL Rapid Code Script
+@Parser Version: 1
+@ID=Main
+# This is an example script which demonstrats variables.
+# This demo requires the 'Debug.Print(X)' external user function.
+
+Function Main()
+	# First Test A: Add global variables.
+		# First way: Add a varible via built-in method.
+		Add(&&test1,"This is a test.",global)
+		# Second way: Add a varible via dynamic strings.
+		Do("&add(&$test2,"This is another test.",global)")
+	# First Test B: Add local (private) variables.
+		# First way: Add a varible via built-in method.
+		Add(&&test3,"My name is tom.",local)
+		# Second way: Add a varible via dynamic strings.
+		Do("&add(&$test4,"My name is fred.",local)")
+	
+	# Second Test: Setting the global variables.
+		# First way: Set a variable via built-in method.
+		&&test1 = "Here comes the bunny."
+		# Second way: Set a variable via dynamic strings.
+		Do("&set(&$test2,"This is funny.")")
+	
+	# Third Test: Setting a variable via a function's property (via reference).
+		Call("SetValues", "&$test4", "Now you see me ...")
+	
+	# Fourth Test: Linking Variables
+		Do("&add(&$test5,"Tom",local)")
+		Do("&add(&$test6,"Fred",local)")
+		&&test6 = &$test5
+	
+	# Fifth Test: Getting Viables Inside and Outside The Scope
+		Call("TestVars")
+	
+	Return()
+End Function
+
+Private Function SetValues(&$variable, &$value)
+	&&variable = &&value
+	Return()
+End Function
+
+Private Function TestVars()
+	Debug.Print("The Global Variable (test1): &&test1")
+	Debug.Print("The Local Variable (test4): &&test4")
+End Function
